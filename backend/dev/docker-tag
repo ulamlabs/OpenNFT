@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# script used to prepare proper docker tag that consist of branch, latest tag, number of commits above that tag and sha, for example: master-v1.0.0-97-g9801f8e
+
+BRANCH=`git symbolic-ref HEAD --short 2>/dev/null`
+if [ "$BRANCH" = "" ] ; then
+  BRANCH=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
+  export BRANCH=${BRANCH#remotes/origin/}
+fi
+BRANCH=$(echo $BRANCH | cut -c -30)
+DESC_TAG=$(git describe --tags --always --abbrev=8)
+DOCKER_TAG=$BRANCH-$DESC_TAG
+DOCKER_TAG=${DOCKER_TAG//[^a-zA-Z_0-9-.]/_}
+
+echo $DOCKER_TAG

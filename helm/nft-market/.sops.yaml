@@ -1,0 +1,2 @@
+creation_rules:
+  - gcp_kms: 'projects/main-ulam/locations/global/keyRings/nft-market/cryptoKeys/nft-market'

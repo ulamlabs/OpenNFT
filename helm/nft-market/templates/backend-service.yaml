@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "nft-market.name" . }}-backend
+  labels:
+    app: {{ template "nft-market.name" . }}-backend
+    chart: {{ template "nft-market.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app: {{ template "nft-market.name" . }}-backend
+    release: {{ .Release.Name }}

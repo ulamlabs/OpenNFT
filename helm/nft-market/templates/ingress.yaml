@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "nft-market.name" . }}
+  labels:
+    app: {{ template "nft-market.name" . }}-backend
+    chart: {{ template "nft-market.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-body-size: "15m"
+spec:
+  rules:
+  - host: nft-be.ulam.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "nft-market.name" . }}-backend
+          servicePort: 80

@@ -140,3 +140,7 @@ cython_debug/
 .idea/
 
 node_modules/
+backend/media/
+
+secrets.yaml.dec
+contracts/artifacts

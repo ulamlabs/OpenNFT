@@ -1,0 +1,11 @@
+SET_PRICE = "S"
+BID = "B"
+CONFIGURE = "C"
+BUY_NOW = "BN"
+SELL_NOW = "SN"
+
+CREATOR = "C"
+NFT_ID = "N"
+ASK_PRICE = "A"
+BID_PRICE = "B"
+OWNER = "O"

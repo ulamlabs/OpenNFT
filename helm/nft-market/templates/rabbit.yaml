@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nft-market.name" . }}-rabbit
+  labels:
+    {{- include "nft-market.labels" . | nindent 4 }}
+    app: {{ template "nft-market.name" . }}-rabbit
+    chart: {{ template "nft-market.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "nft-market.name" . }}-rabbit
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ template "nft-market.name" . }}-rabbit
+        release: {{ .Release.Name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-rabbit
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: rabbitmq
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: rabbit
+              containerPort: 5672
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.rabbitResources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.vars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "nft-market.name" $ }}
+                  key: {{ $key | quote }}
+            {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
