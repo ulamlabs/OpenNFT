@@ -16,6 +16,18 @@
       v-if="showSellNow"
       :asset-data="assetData"
     />
+    <CancelModal
+      v-if="showCancelAsk"
+      :execute="cancelAsk"
+      :validate="checkIfUserHasAsk"
+      :fee="0.003"
+    />
+    <CancelModal
+      v-if="showCancelBid"
+      :execute="cancelBid"
+      :validate="checkIfUserHasBid"
+      :fee="0.003"
+    />
     <TopImage :image="assetData.image" />
     <PageCard>
       <div class="py-4 px-4 mt-3">
@@ -91,7 +103,7 @@
                     v-if="userHasAsset && applicationData['A']"
                     class="mb-4"
                     label="Cancel Offer"
-                    :execute="cancelAsk"
+                    :execute="openCancelAsk"
                     :validate="checkIfUserHasAsk"
                   />
                   <ActionButton
@@ -128,7 +140,7 @@
                     v-if="userBid"
                     class="mb-4"
                     label="Cancel Offer"
-                    :execute="cancelBid"
+                    :execute="openCancelBid"
                     :validate="checkIfUserHasBid"
                   />
                   <ActionButton
@@ -171,6 +183,7 @@ import { validateAlgoBalance, validateAssetBalances } from '@/utils/validation';
 import BuyNowModal from '@/components/modals/BuyNowModal';
 import SellNowModal from '@/components/modals/SellNowModal';
 import TopImage from '@/components/TopImage';
+import CancelModal from '@/components/modals/CancelModal';
 
 export default {
   name: 'AddAssetCard',
@@ -183,7 +196,8 @@ export default {
     ActionButton,
     TopImage,
     SetAskPriceModal,
-    AddressLink
+    AddressLink,
+    CancelModal
   },
   data() {
     return {
@@ -191,7 +205,9 @@ export default {
       showSetAskPrice: false,
       showMakeOffer: false,
       showBuyNow: false,
-      showSellNow: false
+      showSellNow: false,
+      showCancelAsk: false,
+      showCancelBid: false
     };
   },
   computed: {
@@ -274,6 +290,12 @@ export default {
     eventBus.$off('close-asset-modals');
   },
   methods: {
+    openCancelAsk() {
+      this.showCancelAsk = true;
+    },
+    openCancelBid() {
+      this.showCancelBid = true;
+    },
     async cancelAsk() {
       await this.$store.dispatch('algorand/QUEUE_ACTION', {
         actionMethod: async () => {
@@ -391,6 +413,8 @@ export default {
       this.showMakeOffer = false;
       this.showBuyNow = false;
       this.showSellNow = false;
+      this.showCancelAsk = false;
+      this.showCancelBid = false;
     },
     async fetchAssetData() {
       try {
