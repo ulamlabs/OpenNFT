@@ -143,6 +143,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "*.ulam.io",
+    "*.ulam.pro",
     "https://nft-market-azure.vercel.app",
     "http://localhost:8080",
     "http://127.0.0.1:8080",
