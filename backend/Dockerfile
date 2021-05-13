@@ -11,16 +11,13 @@ EXPOSE 80
 
 WORKDIR /app
 
-COPY ./backend/pyproject.toml pyproject.toml
-COPY ./backend/poetry.lock poetry.lock
+COPY ./pyproject.toml pyproject.toml
+COPY ./poetry.lock poetry.lock
 RUN poetry install
 
-ADD ./backend .
-ADD ./contracts/assets ./nft_market/contracts/assets
+ADD . .
 
 RUN python manage.py collectstatic --no-input
-
-RUN ls /app
 
 ENTRYPOINT ["/app/etc/entrypoint.sh"]
 CMD ["web-prod"]
