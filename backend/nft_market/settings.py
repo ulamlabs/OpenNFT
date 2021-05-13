@@ -142,6 +142,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
 ]
 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https:\/\/.+\.ulam\.io$",
+    r"^https:\/\/.+\.ulam\.pro$",
+]
+
 CSRF_TRUSTED_ORIGINS = [
     "*.ulam.io",
     "*.ulam.pro",
