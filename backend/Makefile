@@ -6,13 +6,13 @@ K8S_CONTEXT = gke_main-ulam_europe-west3-b_v2-ulam-io
 
 .PHONY: help deploy
 
-all: image push frontend
+all: image push
 
 help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 image:		## Build the docker image
-	docker build -t nft-market -t $(IMAGE) .. -f .
+	docker build -t nft-market -t $(IMAGE) .
 
 push:    ## push image
 	docker push $(IMAGE)
