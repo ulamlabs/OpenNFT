@@ -1,26 +1,22 @@
 <template>
-  <div>
-    <hr
-      v-if="!renderResponsive || (renderResponsive && data.length)"
-      class="mb-8 mt-8"
-    >
-    <h3 class="text-gray-700 tracking-wide mb-8">
+  <div class="mt-10 mb-28">
+    <h3 class="mb-4 text-gray-900 text-3xl leading-9 font-extrabold tracking-tight">
       Transaction History
     </h3>
     <table
       v-if="!renderResponsive"
-      class="w-full table-fixed divide-y divide-gray-100 shadow-sm border-gray-200 border"
+      class="w-full table-fixed divide-y divide-gray-200 shadow-sm border-gray-200 border"
     >
-      <thead class="divide-y divide-gray-100">
+      <thead class="divide-y divide-gray-200">
         <th
           v-for="(header, headerIndex) in headers"
           :key="headerIndex"
-          class="px-3 py-2 font-semibold text-left bg-gray-100 border-b"
+          class="px-3 py-3 text-gray-500 text-xs leading-4 font-medium tracking-wider uppercase text-left"
         >
           {{ header }}
         </th>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-100 border-l border-r">
+      <tbody class="bg-white divide-y divide-gray-200 border-l border-r">
         <tr
           v-for="(row, rowIndex) in data"
           :key="rowIndex"
@@ -28,7 +24,7 @@
           <td
             v-for="(header, headerIndex) in headers"
             :key="rowIndex + '' + headerIndex"
-            class="px-3 py-2 whitespace-no-wrap truncate"
+            class="px-3 py-3 whitespace-no-wrap truncate"
           >
             <template v-if="header === 'Who'">
               <AddressLink :address="row[header.toLowerCase()]" />
@@ -37,7 +33,12 @@
               <TransactionLink :id="row[header.toLowerCase()]" />
             </template>
             <template v-else>
-              {{ row[header.toLowerCase()] }}
+              <span
+                class="text-sm leading-5 font-normal"
+                :class="header === 'Transaction type' ? 'text-gray-900' : 'text-gray-500'"
+              >
+                {{ row[header.toLowerCase()] }}
+              </span>
             </template>
           </td>
         </tr>
@@ -57,9 +58,7 @@
             <td class="px-2 py-2 w-28">
               <strong>{{ header }}</strong>
             </td>
-            <td
-              class="truncate block px-2 py-2 w-100"
-            >
+            <td class="truncate block px-2 py-2 w-100">
               <template v-if="header === 'Who'">
                 <AddressLink :address="row[header.toLowerCase()]" />
               </template>
@@ -105,7 +104,7 @@ export default {
   data() {
     return {
       data: [],
-      headers: ['Type', 'Who', 'Price', 'Transaction', 'When'],
+      headers: ['Transaction type', 'Who', 'Price', 'Transaction', 'When'],
       windowWidth: window.innerWidth
     };
   },
@@ -130,19 +129,19 @@ export default {
     },
     async fetchTransactions() {
       const response = await internalService.getOperations({
-        'asset__guid': this.assetGuid
+        asset__guid: this.assetGuid
       });
       this.data = this.mapTransactions(response['results']);
     },
     mapTransactions(transactions) {
-      return transactions.map((tx) => {
+      return transactions.map(tx => {
         if (tx['op_type'] === 'ASK' && tx['value'] === 0) {
           tx['op_type'] = 'Cancel ask';
         } else if (tx['op_type'] === 'BID' && tx['value'] === 0) {
           tx['op_type'] = 'Cancel bid';
         }
         return {
-          type: humanizeString(tx['op_type'].replace('_', ' ')),
+          'transaction type': humanizeString(tx['op_type'].replace('_', ' ')),
           who: tx['sender'],
           price: tx['value'] ? toDisplayValue(tx['value']) + ' USDC' : 'N/A',
           transaction: tx['tx_id'],

@@ -2,13 +2,13 @@
   <div>
     <t-nav-button
       v-if="!rawStore.fetchedAccounts"
-      class="inline-flex whitespace-nowrap items-center h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+      class="inline-flex whitespace-nowrap items-center h-10 px-5 m-2 text-sm text-white transition-colors duration-150 bg-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-600"
     >
       Please wait...
     </t-nav-button>
     <t-nav-button
       v-else-if="rawStore.accounts.length === 0"
-      class="inline-flex whitespace-nowrap items-center h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+      class="inline-flex whitespace-nowrap items-center h-10 px-5 m-2 text-sm text-white transition-colors duration-150 bg-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-600"
     >
       No accounts
     </t-nav-button>
@@ -19,28 +19,29 @@
       <nav-dropdown>
         <div
           slot="trigger"
-          slot-scope="{
-            mousedownHandler,
-            focusHandler,
-            blurHandler,
-            keydownHandler,
-            hide
-          }"
+          slot-scope="{ mousedownHandler, focusHandler, blurHandler, keydownHandler, hide }"
           class="flex"
         >
           <t-nav-button
-            classes="inline-flex items-center h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-l focus:shadow-outline hover:bg-indigo-800"
+            classes="inline-flex items-center h-10 px-5 text-sm text-white transition-colors duration-150 bg-indigo-500 rounded-l focus:shadow-outline hover:bg-indigo-600"
             @click="onSelectAccount(hide)"
           >
-            {{ accountDisplay }}
-            <img
-              :src="logo"
-              class="logo ml-2"
-              alt="Algorand Logo"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {{ accountDisplay }}
           </t-nav-button>
           <t-nav-button
-            classes="inline-flex items-center h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-r focus:shadow-outline hover:bg-indigo-800 border-l border-black"
+            classes="inline-flex items-center h-10 px-3 text-sm text-white transition-colors duration-150 bg-indigo-500 rounded-r focus:shadow-outline hover:bg-indigo-600 border-l border-indigo-600"
             @mousedown="mousedownHandler"
             @focus="focusHandler"
             @blur="blurHandler"
@@ -71,7 +72,7 @@
         </div>
         <div slot-scope="{ hide }">
           <button
-            class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="block w-full px-5 py-3 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             role="menuitem"
             @click="onSelectAccount(hide)"
           >
@@ -80,7 +81,7 @@
           <hr>
           <button
             v-if="isStaff"
-            class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="block w-full px-5 py-3 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             role="menuitem"
             @click="onViewCreateNewAsset(hide)"
           >
@@ -88,7 +89,7 @@
           </button>
           <button
             v-if="isStaff"
-            class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="block w-full px-5 py-3 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             role="menuitem"
             @click="onViewCreatedAssets(hide)"
           >
@@ -96,14 +97,14 @@
           </button>
           <hr v-if="isStaff">
           <button
-            class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="block w-full px-5 py-3 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             role="menuitem"
             @click="onViewMyAssets(hide)"
           >
             My NFTs
           </button>
           <button
-            class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="block w-full px-5 py-3 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             role="menuitem"
             @click="onViewMyBids(hide)"
           >
@@ -111,7 +112,7 @@
           </button>
           <hr>
           <button
-            class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="block w-full px-5 py-3 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             role="menuitem"
             @click="onLogout(hide)"
           >
@@ -122,7 +123,7 @@
     </div>
     <t-nav-button
       v-else
-      class="inline-flex whitespace-nowrap items-center h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+      class="inline-flex whitespace-nowrap items-center h-10 px-5 m-2 text-sm text-white transition-colors duration-150 bg-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-600"
     >
       Please wait...
     </t-nav-button>
@@ -143,16 +144,14 @@ export default {
     ...mapGetters({
       rawStore: 'algorand/rawStore',
       isReady: 'algorand/isReady',
-      isStaff: 'internal/isStaff',
+      isStaff: 'internal/isStaff'
     }),
     accountDisplay() {
       const account = this.rawStore.account;
       return (
-        account.substring(0, 3) +
-        '...' +
-        account.substring(account.length - 3, account.length)
+        account.substring(0, 3) + '...' + account.substring(account.length - 3, account.length)
       );
-    },
+    }
   },
   methods: {
     onViewCreateNewAsset(hide) {
@@ -188,7 +187,7 @@ export default {
       });
       hide();
     }
-  },
+  }
 };
 </script>
 <style scoped>

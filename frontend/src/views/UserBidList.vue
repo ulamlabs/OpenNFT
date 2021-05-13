@@ -1,26 +1,28 @@
 <template>
-  <div>
-    <h1 class="mb-8 tracking-widest text-center">
-      My Bids
-    </h1>
+  <div class="mx-6 mt-6 py-6 px-16">
+    <AssetTitle title="My Bids" />
     <h4
       v-if="assets.length === 0"
-      class="text-center mb-8"
+      class="text-xl text-center pt-8"
     >
       You have no bids!
     </h4>
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap justify-center sm:justify-start">
       <div
         v-for="asset in assets"
         :key="asset['guid']"
       >
-        <AssetListCard :asset="asset" />
+        <AssetListCard
+          :asset="asset"
+          :with-my-bid="true"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
 import AssetListCard from '@/components/cards/AssetListCard';
+import AssetTitle from '@/components/AssetTitle';
 import { internalService } from '@/services/internal';
 import { mapGetters } from 'vuex';
 import { BID_PRICE } from '@/utils/constants';
@@ -30,12 +32,13 @@ import authOnly from '@/mixins/authOnly';
 export default {
   name: 'UserBidList',
   components: {
-    AssetListCard
+    AssetListCard,
+    AssetTitle
   },
   mixins: [authOnly],
   data() {
     return {
-      assets: [],
+      assets: []
     };
   },
   computed: {
@@ -43,7 +46,7 @@ export default {
       userAssets: 'algorand/userAssets',
       account: 'algorand/account',
       userStates: 'algorand/userStates'
-    }),
+    })
   },
   watch: {
     userAssets() {
@@ -62,7 +65,7 @@ export default {
   },
   methods: {
     async fetchAssetList() {
-      const appIds = Object.keys(this.userStates).filter((key) => {
+      const appIds = Object.keys(this.userStates).filter(key => {
         const userState = this.userStates[key];
         return !!userState[BID_PRICE];
       });
@@ -71,9 +74,9 @@ export default {
         return;
       }
       const response = await internalService.getAssets({
-        'status': 'RD',
-        'ordering': 'created_at',
-        'application_id__in': appIds
+        status: 'RD',
+        ordering: 'created_at',
+        application_id__in: appIds
       });
       this.assets = response['results'];
     }

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <nav class="bg-gray-800">
-      <div class="mx-auto px-2 sm:px-6 lg:px-8">
-        <div class="relative flex items-center justify-between h-16">
+    <nav class="bg-white">
+      <div class="lg:w-5/6 mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
           <div class="inset-y-0 left-0 flex items-center md:hidden">
             <!-- Mobile menu button-->
             <button
-              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
               :aria-expanded="menuIsOpened"
               @click="toggleMenu"
             >
@@ -55,9 +55,7 @@
               </svg>
             </button>
           </div>
-          <div
-            class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start"
-          >
+          <div class="flex">
             <div class="flex-shrink-0 flex items-center">
               <a
                 href="#"
@@ -70,33 +68,38 @@
                 >
               </a>
             </div>
-            <div class="hidden md:block sm:ml-6">
-              <div class="flex space-x-2">
-                <router-link
-                  v-for="entry in entries"
-                  :key="entry.to"
-                  :to="entry.to"
-                  :exact="entry.exact"
-                  active-class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                  class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  {{ entry.label }}
-                </router-link>
-              </div>
+          </div>
+          <div class="flex">
+            <div class="hidden md:ml-6 md:flex md:space-x-8">
+              <router-link
+                v-for="entry in entries"
+                :key="entry.to"
+                :to="entry.to"
+                :exact="entry.exact"
+                active-class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-base font-medium"
+                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-base font-medium"
+              >
+                {{ entry.label }}
+              </router-link>
+              <a
+                href="#"
+                target="blank"
+                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-base font-medium"
+              >
+                Case Study
+              </a>
             </div>
           </div>
-          <div
-            class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
-          >
+          <div class="right-0 flex pr-2 static inset-auto ml-6 pr-0">
             <div
               v-if="!rawStore.connected"
-              class="flex"
+              class="flex items-center"
             >
               <ConnectToWalletButton />
             </div>
             <div
               v-else
-              class="flex"
+              class="flex items-center"
             >
               <AccountButton />
             </div>
@@ -116,11 +119,18 @@
             :key="entry.to"
             :to="entry.to"
             :exact="entry.exact"
-            active-class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            active-class="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+            class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           >
             {{ entry.label }}
           </router-link>
+          <a
+            href="#"
+            target="blank"
+            class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+          >
+            Case Study
+          </a>
         </div>
       </div>
     </nav>
@@ -156,8 +166,13 @@ export default {
     entries() {
       return [
         {
-          label: 'Home Page',
+          label: 'Home',
           to: '/',
+          exact: true
+        },
+        {
+          label: 'All Items',
+          to: '/all-items',
           exact: true
         },
         {
@@ -186,7 +201,7 @@ export default {
     },
     toggleMenu() {
       this.menuIsOpened = !this.menuIsOpened;
-    },
-  },
+    }
+  }
 };
 </script>

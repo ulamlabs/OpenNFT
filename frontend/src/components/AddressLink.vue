@@ -1,6 +1,6 @@
 <template>
   <a
-    class="underline truncate"
+    class="underline truncate text-gray-700"
     :href="addressLink"
   >{{ addressDisplay }}</a>
 </template>
@@ -29,7 +29,7 @@ export default {
       } else {
         return `https://algoexplorer.io/address/${this.address}`;
       }
-    },
+    }
   }
 };
 </script>

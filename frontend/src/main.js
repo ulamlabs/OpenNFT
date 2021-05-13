@@ -5,7 +5,14 @@ import '@/assets/css/tailwind.css';
 import '@/assets/css/custom.css';
 
 import VueTailwind from 'vue-tailwind';
-import { TButton, TDropdown, TInput, TSelect, TTable, TTextarea } from 'vue-tailwind/dist/components';
+import {
+  TButton,
+  TDropdown,
+  TInput,
+  TSelect,
+  TTable,
+  TTextarea
+} from 'vue-tailwind/dist/components';
 
 import store from '@/store';
 import router from '@/router';
@@ -32,19 +39,49 @@ const settings = {
   't-nav-button': {
     component: TButton,
     props: {
-      classes: 'inline-flex whitespace-nowrap items-center h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800'
+      classes: 'inline-flex whitespace-nowrap items-center h-10 px-5 m-2 text-base text-white transition-colors duration-150 bg-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-800'
     }
   },
   't-button': {
     component: TButton,
     props: {
-      classes: 'block tracking-widest w-full uppercase text-center shadow bg-indigo-600 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+      classes: 'block w-full text-center bg-indigo-500 hover:bg-indigo-600 focus:shadow-outline focus:outline-none text-white text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+    }
+  },
+  't-light-button': {
+    component: TButton,
+    props: {
+      classes: 'block w-full text-center bg-indigo-50 hover:bg-indigo-100 focus:shadow-outline focus:outline-none text-indigo-700 text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+    }
+  },
+  't-white-button': {
+    component: TButton,
+    props: {
+      classes: 'block w-full text-center bg-white hover:bg-gray-50 border border-gray-300 focus:shadow-outline focus:outline-none text-gray-700 text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+    }
+  },
+  't-white-featured-button': {
+    component: TButton,
+    props: {
+      classes: 'block w-full text-center bg-white hover:bg-gray-50 border border-gray-300 focus:shadow-outline focus:outline-none text-indigo-700 text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
     }
   },
   'modal-button': {
     component: TButton,
     props: {
-      classes: 'bg-red-600 hover:bg-red-700 mt-3 w-full justify-center text-white rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed'
+      classes: 'bg-indigo-500 hover:bg-indigo-600 mt-3 w-full justify-center text-white rounded-md border border-indigo-500 shadow-sm sm:w-36 py-2 sm:py-3 sm:text-base text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 disabled:opacity-50 disabled:cursor-not-allowed'
+    }
+  },
+  'red-modal-button': {
+    component: TButton,
+    props: {
+      classes: 'bg-rose-500 hover:bg-rose-600 mt-3 w-full justify-center text-white rounded-md shadow-sm sm:w-36 py-2 sm:py-3 sm:text-base text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 sm:mt-0 disabled:opacity-50 disabled:cursor-not-allowed'
+    }
+  },
+  'cancel-modal-button': {
+    component: TButton,
+    props: {
+      classes: 'mt-3 w-full justify-center rounded-md border border-gray-300 shadow-sm sm:w-36 py-2 sm:py-3 bg-white sm:text-base text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:mr-3'
     }
   },
   't-textarea': {
@@ -61,7 +98,7 @@ const settings = {
     props: {
       classes: {
         wrapper: 'inline-flex flex-col',
-        dropdownWrapper: 'relative z-10',
+        dropdownWrapper: 'relative z-50',
         dropdown: 'origin-top-left absolute left-0 w-full rounded shadow bg-white mt-1',
         enterClass: '',
         enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',

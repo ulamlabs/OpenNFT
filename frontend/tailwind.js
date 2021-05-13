@@ -1,8 +1,14 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        rose: colors.rose
+      }
+    },
     screens: {
       'xs': '320px',
       'sm': '640px',
@@ -16,10 +22,8 @@ module.exports = {
     extend: {
       opacity: ['disabled'],
       cursor: ['disabled'],
-      ringWidth: ['hover', 'focus'],
+      ringWidth: ['hover', 'focus']
     }
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ]
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')]
 };

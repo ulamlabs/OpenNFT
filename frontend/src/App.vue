@@ -19,6 +19,9 @@
     <PageContainer>
       <router-view />
     </PageContainer>
+    <div class="h-56">
+      <Footer />
+    </div>
   </div>
 </template>
 
@@ -26,6 +29,7 @@
 import { mapGetters } from 'vuex';
 import { ALGORAND_LEDGER } from './config';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Alert from './components/Alert';
 import UpdateScheduler from './components/UpdateScheduler';
 import SelectAccountModal from './components/modals/SelectAccountModal';
@@ -39,11 +43,12 @@ export default {
   components: {
     PageContainer,
     Navbar,
+    Footer,
     UpdateScheduler,
     SelectAccountModal,
     SelectWalletModal,
     Alert,
-    ActionModal,
+    ActionModal
   },
   data() {
     return {
@@ -108,7 +113,7 @@ export default {
       }
       eventBus.$emit('open-alert', {
         type: 'success',
-        message: `Transaction has been successfully processed. Click <a href="${address}${txId}" target="_blank" class="underline">here</a> to preview the transaction.`
+        message: `Transaction has been successfully processed. Click <a href='${address}${txId}' target='_blank' class='underline'>here</a> to preview the transaction.`
       });
     },
     onSetActionMessage(actionMessage) {
@@ -119,10 +124,12 @@ export default {
 </script>
 <style>
 body {
-  background-color: rgb(242, 242, 242);
+  background-color: #f9fafb;
 }
 
 #app {
+  position: relative;
   min-width: 320px;
+  min-height: 100vh;
 }
 </style>

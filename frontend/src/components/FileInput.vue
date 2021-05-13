@@ -1,16 +1,5 @@
 <template>
-  <div>
-    <div class="border px-2 py-2 rounded mb-1 inline-flex max-w-md w-full">
-      <t-button
-        classes="tracking-widest whitespace-nowrap uppercase text-center shadow bg-indigo-600 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-2 px-5 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-        @click="openDialog"
-      >
-        Select file
-      </t-button>
-      <div class="px-2 text-sm truncate">
-        {{ filename || "No file chosen..." }}
-      </div>
-    </div>
+  <span @click="openDialog">
     <input
       ref="file"
       type="file"
@@ -18,9 +7,10 @@
       :value="value"
       @change="onChange"
     >
+    <slot />
     <p
       v-if="typeof error === 'string'"
-      class="text-red-900 text-sm"
+      class="text-red-500 text-center text-sm"
     >
       {{ error }}
     </p>
@@ -28,11 +18,11 @@
       v-for="err in error"
       v-else-if="typeof error === 'object'"
       :key="err"
-      class="text-red-900 text-sm"
+      class="text-red-500 text-center text-sm"
     >
       {{ err }}
     </p>
-  </div>
+  </span>
 </template>
 <script>
 export default {
@@ -41,7 +31,7 @@ export default {
   props: {
     error: {
       default: false,
-      type: [Boolean, String, Array],
+      type: [Boolean, String, Array]
     },
     value: {
       type: String,
@@ -59,7 +49,7 @@ export default {
       this.$refs.file.click();
     },
     onChange(e) {
-      const files = e.target && e.target.files || e.dataTransfer && e.dataTransfer.files;
+      const files = (e.target && e.target.files) || (e.dataTransfer && e.dataTransfer.files);
       if (!files || !files.length) {
         e.preventDefault();
         return;
@@ -67,6 +57,6 @@ export default {
       this.filename = files[0].name;
       this.$emit('change', e);
     }
-  },
+  }
 };
 </script>

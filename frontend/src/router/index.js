@@ -6,6 +6,7 @@ import DeployContract from '@/views/DeployContract.vue';
 import AssetDetails from '@/views/AssetDetails';
 import UserAssetList from '@/views/UserAssetList';
 import ForSale from '@/views/ForSale';
+import AllItems from '@/views/AllItems';
 import HighestBids from '@/views/HighestBids';
 import RecentlyAdded from '@/views/RecentlyAdded';
 import UserCreatedAssetList from '@/views/UserCreatedAssetList';
@@ -51,6 +52,11 @@ const routes = [
     path: '/my-bids',
     name: 'UserBidList',
     component: UserBidList,
+  },
+  {
+    path: '/all-items',
+    name: 'AllItems',
+    component: AllItems,
   },
   {
     path: '/for-sale',

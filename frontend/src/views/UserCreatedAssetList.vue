@@ -1,21 +1,17 @@
 <template>
-  <div>
-    <h1 class="mb-8 tracking-widest text-center">
-      Created NFTs
-    </h1>
+  <div class="mx-6 mt-6 py-6 px-16">
+    <AssetTitle title="Created NFTs" />
     <h4
       v-if="deployedAssets.length === 0 && pendingAssets.length === 0"
-      class="text-center mb-8"
+      class="text-xl text-center pt-8"
     >
       You have not created any NFT!
     </h4>
-    <h2
+    <AssetTitle
       v-if="deployedAssets.length && pendingAssets.length"
-      class="mb-8 text-center"
-    >
-      Pending
-    </h2>
-    <div class="flex flex-wrap justify-center">
+      title="Pending"
+    />
+    <div class="flex flex-wrap justify-center sm:justify-start">
       <div
         v-for="asset in pendingAssets"
         :key="asset['guid']"
@@ -23,13 +19,12 @@
         <AssetListCard :asset="asset" />
       </div>
     </div>
-    <h2
+    <br>
+    <AssetTitle
       v-if="deployedAssets.length && pendingAssets.length"
-      class="mb-8 mt-8 text-center"
-    >
-      Ready To Use
-    </h2>
-    <div class="flex flex-wrap justify-center">
+      title="Ready To Use"
+    />
+    <div class="flex flex-wrap justify-center sm:justify-start">
       <div
         v-for="asset in deployedAssets"
         :key="asset['guid']"
@@ -41,6 +36,7 @@
 </template>
 <script>
 import AssetListCard from '@/components/cards/AssetListCard';
+import AssetTitle from '@/components/AssetTitle';
 import { internalService } from '@/services/internal';
 import { mapGetters } from 'vuex';
 import eventBus from '@/utils/eventBus';
@@ -49,11 +45,10 @@ import staffOnly from '@/mixins/staffOnly';
 export default {
   name: 'UserCreatedAssetList',
   components: {
-    AssetListCard
+    AssetListCard,
+    AssetTitle
   },
-  mixins: [
-    staffOnly
-  ],
+  mixins: [staffOnly],
   data() {
     return {
       pendingAssets: [],
@@ -86,17 +81,17 @@ export default {
     },
     async fetchPendingAssetList() {
       const response = await internalService.getAssets({
-        'ordering': 'created_at',
-        'creator_address': this.account,
-        'status__exclude': 'RD'
+        ordering: 'created_at',
+        creator_address: this.account,
+        status__exclude: 'RD'
       });
       this.pendingAssets = response['results'] || [];
     },
     async fetchDeployedAssetList() {
       const response = await internalService.getAssets({
-        'ordering': 'created_at',
-        'creator_address': this.account,
-        'status': 'RD'
+        ordering: 'created_at',
+        creator_address: this.account,
+        status: 'RD'
       });
       this.deployedAssets = response['results'] || [];
     }

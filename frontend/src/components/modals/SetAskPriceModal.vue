@@ -6,47 +6,44 @@
       aria-modal="true"
       aria-labelledby="modal-headline"
     >
-      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-        <h2 class="text-gray-700 font-semibold tracking-wide mb-2">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 rounded-lg">
+        <div class="text-indigo-500 text-3xl leading-9 font-extrabold tracking-tight">
           Set a price
-        </h2>
+        </div>
         <div class="mt-4">
           <NumberInput
             v-model="price"
             component="t-currency-input"
-            label="Price"
+            label="Your Price"
             :error="error"
             @input="validate"
           >
             <template v-slot:append>
-              <span class="hidden xs:block z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center right-0 pr-3 py-2.5">
+              <span
+                class="hidden xs:block z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center right-0 pr-3 py-2.5"
+              >
                 USDC
               </span>
             </template>
           </NumberInput>
         </div>
-        <p class="mt-4">
+        <p class="text-gray-400 text-sm font-light">
           Transaction fees: {{ totalFee }} Algos
         </p>
-        <hr class="mt-4 mb-4">
-        <p>Before you confirm:</p>
-        <ul class="list-disc list-inside">
-          <li>
-            The NFT is held in escrow
-          </li>
-          <li>
-            Cash is automatically transferred to your address when the buyer accepts your price
-          </li>
-        </ul>
+        <hr class="my-4">
+        <div class="text-gray-700 text-sm leading-5">
+          <p>Before you confirm:</p>
+          <ul class="list-disc list-outside ml-6">
+            <li>
+              The NFT is held in escrow
+            </li>
+            <li>
+              Cash is automatically transferred to your address when the buyer accepts your price
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-center">
-        <button
-          type="button"
-          class="mt-3 w-full justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:mr-3 sm:w-auto sm:text-sm"
-          @click="onClose"
-        >
-          Cancel
-        </button>
+      <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row sm:space-x-8 justify-center">
         <ActionButton
           label="Confirm"
           :execute="onConfirm"
@@ -56,6 +53,12 @@
           :error="buttonError || !!error"
           component="modal-button"
         />
+        <cancel-modal-button
+          type="button"
+          @click="onClose"
+        >
+          Cancel
+        </cancel-modal-button>
       </div>
     </div>
   </ModalWrapper>
@@ -78,7 +81,7 @@ export default {
   components: {
     ModalWrapper,
     ActionButton,
-    NumberInput,
+    NumberInput
   },
   props: {
     assetData: {
@@ -103,10 +106,14 @@ export default {
       userAssets: 'algorand/userAssets'
     }),
     contractOwnerAddress() {
-      return this.applicationData['O'] ? algosdk.encodeAddress(base64ToUint8Array(this.applicationData['O'])) : null;
+      return this.applicationData['O']
+        ? algosdk.encodeAddress(base64ToUint8Array(this.applicationData['O']))
+        : null;
     },
     requiresApplicationOptIn() {
-      return !!(this.assetData['application_id'] && !this.userStates[this.assetData['application_id']]);
+      return !!(
+        this.assetData['application_id'] && !this.userStates[this.assetData['application_id']]
+      );
     },
     requiresAssetOptIn() {
       return !this.userAssets[USDC_ID];
@@ -120,7 +127,7 @@ export default {
       if (this.requiresApplicationOptIn) {
         fee += 0.001;
       }
-      if (this.requiresAssetOptIn)  {
+      if (this.requiresAssetOptIn) {
         fee += 0.001;
       }
       return fee;
@@ -137,7 +144,9 @@ export default {
     validate() {
       this.clearError();
       const price = toRawValue(this.price);
-      const highestBid = this.assetData['highest_bid'] ? Number(this.assetData['highest_bid'].value) : 0;
+      const highestBid = this.assetData['highest_bid']
+        ? Number(this.assetData['highest_bid'].value)
+        : 0;
       if (price <= 0) {
         this.error = 'Must be bigger than 0';
       } else if (price === this.applicationData['A']) {
@@ -169,6 +178,6 @@ export default {
         actionVerificationMethod: checkIfOperationIsCompleted
       });
     }
-  },
+  }
 };
 </script>

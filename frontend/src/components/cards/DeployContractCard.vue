@@ -1,57 +1,49 @@
 <template>
   <div>
-    <TopImage :image="image" />
-    <PageCard>
-      <div class="py-4 px-4 mt-3">
-        <div class="flex flex-col">
-          <div class="flex flex-row flex-wrap">
-            <div class="flex flex-row flex-grow px-4">
-              <div class="flex flex-col flex-grow">
-                <h2 class="text-gray-700 font-semibold tracking-wide mb-2">
-                  Create NFT
-                </h2>
-                <div class="mt-4">
-                  <NInput
-                    v-model="unitName"
-                    disabled
-                    label="Ticker Symbol"
-                  />
-                </div>
-                <div class="mt-4">
-                  <NInput
-                    v-model="assetName"
-                    disabled
-                    label="Asset Name"
-                  />
-                </div>
-                <div class="mt-4">
-                  <NInput
-                    v-model="assetDescription"
-                    disabled
-                    label="Description"
-                    component="t-textarea"
-                    rows="6"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-grow mt-4">
-            <div class="mx-auto">
-              <ActionButton
-                :label="actionLabel"
-                :execute="onSubmit"
-                :validate="validate"
-              />
-            </div>
-          </div>
-        </div>
+    <div class="relative bg-gray-800 header flex flex-col justify-center items-center">
+      <div class="sm:w-96 w-1/2">
+        <TopImage :image="image" />
       </div>
-    </PageCard>
+    </div>
+
+    <div class="flex flex-col mx-auto my-32 md:max-w-xl max-w-sm">
+      <div class="text-gray-900 text-lg leading-6 font-medium">
+        Create NFT
+      </div>
+      <div class="mt-4">
+        <NInput
+          v-model="unitName"
+          disabled
+          label="Ticker Symbol"
+        />
+      </div>
+      <div class="mt-4">
+        <NInput
+          v-model="assetName"
+          disabled
+          label="Asset Name"
+        />
+      </div>
+      <div class="mt-4">
+        <NInput
+          v-model="assetDescription"
+          disabled
+          label="Description"
+          component="t-textarea"
+          rows="6"
+        />
+      </div>
+      <div class="mt-2 w-36 mx-auto">
+        <ActionButton
+          :label="actionLabel"
+          :execute="onSubmit"
+          :validate="validate"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script>
-import PageCard from '@/components/cards/PageCard';
 import ActionButton from '@/components/ActionButton';
 import { mapGetters } from 'vuex';
 import { internalService } from '@/services/internal';
@@ -65,7 +57,6 @@ export default {
   name: 'DeployContractCard',
   components: {
     TopImage,
-    PageCard,
     ActionButton,
     NInput
   },
@@ -224,23 +215,20 @@ export default {
       const accountAddress = this.rawStore.account;
       await this.$store.dispatch('algorand/QUEUE_ACTION', {
         actionMethod: async () => {
-          return await this.rawStore.walletManager.createContract(
-            accountAddress,
-            this.assetId
-          );
+          return await this.rawStore.walletManager.createContract(accountAddress, this.assetId);
         },
         actionMessage: 'Creating contract...',
         actionVerificationMethod: async ({ state, dispatch }) => {
           const actionResult = state.actionResult;
           const proxyAddress = actionResult['proxyAddress'];
-          const oldAccountData = Object.assign( {}, state.accountDataCache[proxyAddress] || {});
+          const oldAccountData = Object.assign({}, state.accountDataCache[proxyAddress] || {});
           const oldAccountApps = oldAccountData['created-apps'] || [];
           await dispatch('FETCH_ACCOUNT_DATA', { customAddress: proxyAddress });
           const newAccountData = state.accountDataCache[proxyAddress];
           const newAccountApps = newAccountData['created-apps'] || [];
           if (newAccountApps.length > oldAccountApps.length) {
             const txId = actionResult['txId'];
-            this.whenDeployed(newAccountApps[newAccountApps.length-1]['id'], txId).then();
+            this.whenDeployed(newAccountApps[newAccountApps.length - 1]['id'], txId).then();
             return true;
           }
           return false;
@@ -250,3 +238,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.header {
+  height: 35rem;
+}
+</style>

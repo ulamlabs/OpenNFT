@@ -2,8 +2,11 @@
   <div>
     <label
       v-if="label"
+      class="text-sm leading-5 font-medium"
       :class="labelClass"
-    >{{ label }}</label>
+    >{{
+      label
+    }}</label>
     <slot name="input">
       <div class="relative flex w-full flex-wrap items-stretch mb-1">
         <slot name="prepend" />
@@ -44,11 +47,11 @@ export default {
     label: {
       type: String,
       default: null,
-      required: false,
+      required: false
     },
     error: {
       default: false,
-      type: [Boolean, String, Array, Number],
+      type: [Boolean, String, Array, Number]
     },
     value: {
       type: [String, Number],
@@ -70,7 +73,7 @@ export default {
       return this.error ? 'danger' : '';
     },
     labelClass() {
-      return this.error ? 'text-red-900' : '';
+      return this.error ? 'text-red-800' : 'text-gray-700';
     },
     inputListeners() {
       return this.$listeners;
@@ -83,6 +86,6 @@ export default {
     onInput(value) {
       this.$emit('input', value);
     }
-  },
+  }
 };
 </script>
