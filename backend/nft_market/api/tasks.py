@@ -111,7 +111,7 @@ def index_operations(asset_pk, update_timestamp=False, params=None):
             limit=1,
             txn_type="appl",
         )
-    response = algorand.indexer.search_transactions(**params)
+    response = algorand.explorer.search_transactions(**params)
     txs = response["transactions"]
     if len(txs) == 0:
         return
@@ -214,7 +214,7 @@ def index_holder(asset_pk, prev_tx=None, params=None):
             txn_type="axfer",
             min_amount=0,
         )
-    response = algorand.indexer.search_transactions(**params)
+    response = algorand.explorer.search_transactions(**params)
     txs = response["transactions"]
 
     txs = list(filter(is_non_zero_asset_tx, txs))
