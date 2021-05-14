@@ -87,7 +87,8 @@ export default {
   computed: {
     ...mapGetters({
       rawStore: 'algorand/rawStore',
-      userStates: 'algorand/userStates'
+      userStates: 'algorand/userStates',
+      account: 'algorand/account',
     }),
     highestBidDisplay() {
       if (this.asset['highest_bid']) {
@@ -108,8 +109,11 @@ export default {
       return '-';
     },
     buttonLabel() {
-      const url = window.location.hash;
-      return url.includes('admin/nft-list') || url.includes('my-nfts') ? 'Show my NFT' : 'Place a bid';
+      if (this.asset.owner_address) {
+        return this.account === this.asset.owner_address ? 'Show my NFT' : 'Place a bid';
+      } else {
+        return this.account === this.asset.holding_address ? 'Show my NFT' : 'Place a bid';
+      }
     }
   },
   methods: {

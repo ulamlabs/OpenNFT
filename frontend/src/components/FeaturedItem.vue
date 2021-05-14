@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-800 header flex flex-col space-y-8 py-8 md:flex-row md:space-y-0 justify-evenly items-center">
+  <div class="bg-gray-800 header flex flex-col space-y-8 py-8 lg:flex-row lg:space-y-0 justify-evenly items-center">
     <MakeOfferModal
       v-if="showMakeOffer"
       :asset-data="item"
@@ -8,7 +8,7 @@
       v-if="showBuyNow"
       :asset-data="item"
     />
-    <div class="flex flex-col md:w-1/4 w-5/6">
+    <div class="flex flex-col lg:w-1/4 md:w-1/2 w-5/6">
       <div class="text-gray-500 text-base leading-6 font-semibold tracking-wider uppercase">
         Featured
       </div>
@@ -38,13 +38,14 @@
           </div>
         </dl>
       </div>
-      <div class="grid grid-cols-2 items-baseline mt-8">
+      <div class="grid grid-cols-2 items-start mt-8">
         <div class="mr-auto w-5/6">
           <ActionButton
             v-if="!userHasAsset && item.price"
             label="Buy Now"
             :validate="validateBuyNow"
             :execute="openBuyNow"
+            component="t-featured-button"
           />
         </div>
         <div class="ml-auto w-5/6">
@@ -67,11 +68,9 @@
   </div>
 </template>
 <script>
-import algosdk from 'algosdk';
 import { mapGetters } from 'vuex';
 import { USDC_ID } from '@/config';
 import eventBus from '@/utils/eventBus';
-import { base64ToUint8Array } from '@/utils/encoding';
 import { emitError } from '@/utils/errors';
 import { validateAlgoBalance, validateAssetBalances } from '@/utils/validation';
 import TopImage from '@/components/TopImage';
@@ -102,12 +101,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isStaff: 'internal/isStaff',
-      userAssets: 'algorand/userAssets',
-      userStates: 'algorand/userStates',
       account: 'algorand/account',
-      rawStore: 'algorand/rawStore',
-      applicationData: 'algorand/applicationData'
     }),
     priceDisplay() {
       return this.item.price ? `${toDisplayValue(this.item.price)} USDC` : '-';
@@ -118,21 +112,10 @@ export default {
         : '-';
     },
     userHasAsset() {
-      const userAsset = this.userAssets[String(this.item.asset_id)];
-      if (userAsset && userAsset.amount > 0) {
-        return true;
-      } else if (this.account && this.contractOwnerAddress === this.account) {
+      if (this.account === this.item.owner_address || this.account === this.item.holding_address) {
         return true;
       }
       return false;
-    },
-    contractOwnerAddress() {
-      if (this.applicationData['O'] === 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=') {
-        return null;
-      }
-      return this.applicationData['O']
-        ? algosdk.encodeAddress(base64ToUint8Array(this.applicationData['O']))
-        : null;
     },
   },
   mounted() {

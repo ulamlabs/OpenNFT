@@ -86,6 +86,54 @@
     </div>
 
     <div class="md:mx-20 px-10 mt-3">
+      <div class="mt-10 text-gray-500 text-sm leading-5 font-medium flex space-x-5 items-baseline">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.292893 7.29289C-0.0976311 7.68342 -0.0976311 8.31658 0.292893 8.70711C0.683417 9.09763 1.31658 9.09763 1.70711 8.70711L2 8.41421V15C2 15.5523 2.44772 16 3 16H5C5.55228 16 6 15.5523 6 15V13C6 12.4477 6.44772 12 7 12H9C9.55229 12 10 12.4477 10 13V15C10 15.5523 10.4477 16 11 16H13C13.5523 16 14 15.5523 14 15V8.41421L14.2929 8.70711C14.6834 9.09763 15.3166 9.09763 15.7071 8.70711C16.0976 8.31658 16.0976 7.68342 15.7071 7.29289L8.70711 0.292893Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+        <svg
+          width="6"
+          height="10"
+          viewBox="0 0 6 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M0.292894 9.70711C-0.0976307 9.31658 -0.0976307 8.68342 0.292894 8.29289L3.58579 5L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683418 0.292893 0.292894C0.683417 -0.0976312 1.31658 -0.0976312 1.70711 0.292894L5.70711 4.29289C6.09763 4.68342 6.09763 5.31658 5.70711 5.70711L1.70711 9.70711C1.31658 10.0976 0.683418 10.0976 0.292894 9.70711Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+        <router-link to="/all-items">
+          All items
+        </router-link>
+        <svg
+          width="6"
+          height="10"
+          viewBox="0 0 6 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M0.292894 9.70711C-0.0976307 9.31658 -0.0976307 8.68342 0.292894 8.29289L3.58579 5L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683418 0.292893 0.292894C0.683417 -0.0976312 1.31658 -0.0976312 1.70711 0.292894L5.70711 4.29289C6.09763 4.68342 6.09763 5.31658 5.70711 5.70711L1.70711 9.70711C1.31658 10.0976 0.683418 10.0976 0.292894 9.70711Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+        <router-link :to="navLink">
+          {{ navLabel }}
+        </router-link>
+      </div>
       <div class="grid grid-cols-1 mb-20 lg:grid-cols-3 lg:space-x-10">
         <div class="col-span-2">
           <div class="text-6xl leading-none font-extrabold tracking-tight py-10">
@@ -102,7 +150,7 @@
               <dt class="text-sm leading-5 font-medium text-gray-600 mb-2">
                 {{ priceLabel }}
               </dt>
-              <dd class="text-3xl leading-8 font-extrabold tracking-tight text-gray-800 my-auto">
+              <dd class="text-3xl leading-8 font-extrabold tracking-tight text-gray-800 my-auto break-words">
                 {{ priceDisplay }}
               </dd>
             </div>
@@ -110,7 +158,7 @@
               <dt class="text-sm leading-5 font-medium text-gray-600 mb-2">
                 {{ highestBidLabel }}
               </dt>
-              <dd class="text-3xl leading-8 font-light tracking-tight text-gray-800 my-auto">
+              <dd class="text-3xl leading-8 font-light tracking-tight text-gray-800 my-auto break-words">
                 {{ highestValueDisplay }}
               </dd>
               <dt
@@ -121,13 +169,13 @@
               </dt>
               <dd
                 v-if="userBidDisplay"
-                class="text-3xl leading-8 font-light tracking-tight text-gray-800"
+                class="text-3xl leading-8 font-light tracking-tight text-gray-800 break-words"
               >
                 {{ userBidDisplay }} USDC
               </dd>
             </div>
           </dl>
-          <div class="grid grid-cols-2 items-baseline">
+          <div class="grid grid-cols-2 items-start">
             <div class="mt-4 mx-auto w-5/6">
               <ActionButton
                 v-if="userHasAsset"
@@ -329,6 +377,22 @@ export default {
     },
     priceButtonComponent() {
       return this.applicationData['A'] && this.hasBid ? 't-light-button' : 't-button';
+    },
+    navLabel() {
+      if (this.applicationData['A']) {
+        return 'For Sale';
+      } else if (this.assetData['highest_bid']) {
+        return 'Highest Bids';
+      }
+      return 'Recent';
+    },
+    navLink() {
+      if (this.applicationData['A']) {
+        return '/for-sale';
+      } else if (this.assetData['highest_bid']) {
+        return '/highest-bids';
+      }
+      return '/recently-added';
     },
     userBid() {
       const userData = this.userStates[this.assetData['application_id']];
