@@ -23,9 +23,9 @@ class Asset(TimeStampMixin, models.Model):
         max_length=8, unique=True, verbose_name="ticker symbol"
     )
     name = models.CharField(max_length=32, unique=True, verbose_name="asset name")
-    asset_id = models.PositiveIntegerField(unique=True)
+    asset_id = models.PositiveBigIntegerField(unique=True)
     description = models.TextField()
-    application_id = models.PositiveIntegerField(unique=True, blank=True, null=True)
+    application_id = models.PositiveBigIntegerField(unique=True, blank=True, null=True)
     escrow_address = models.CharField(max_length=58, unique=True, blank=True, null=True)
     holding_address = models.CharField(max_length=58, blank=True, null=True)
     creator_address = models.CharField(max_length=58)
@@ -35,7 +35,7 @@ class Asset(TimeStampMixin, models.Model):
         default=AssetStatus.DEPLOYED_ASSET,
     )
     image = models.FileField()
-    last_round = models.PositiveIntegerField(default=0)
+    last_round = models.PositiveBigIntegerField(default=0)
     last_check = models.DateTimeField(blank=True, null=True)
 
     class Meta:
@@ -67,7 +67,7 @@ class Operation(TimeStampMixin, models.Model):
         max_length=8,
         choices=OperationType.choices,
     )
-    value = models.PositiveIntegerField(blank=True, null=True)
+    value = models.PositiveBigIntegerField(blank=True, null=True)
     tx_id = models.CharField(max_length=58, blank=True, null=True)
     sender = models.CharField(max_length=58, blank=True, null=True)
     # Other side of the transaction e.g. buyer in case of SELL_NOW tx
@@ -77,7 +77,7 @@ class Operation(TimeStampMixin, models.Model):
     is_valid = models.BooleanField(default=True)
     is_executed = models.BooleanField(default=False)
     is_pending = models.BooleanField(default=False)  # Has to be sent
-    block_number = models.PositiveIntegerField(blank=True, null=True)
+    block_number = models.PositiveBigIntegerField(blank=True, null=True)
     block_time = models.DateTimeField(blank=True, null=True)
     blob = models.BinaryField(blank=True, null=True)  # Raw tx data
 
