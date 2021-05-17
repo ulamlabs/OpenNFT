@@ -7,7 +7,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nft_market.settings")
 django.setup()
 
-from celery import Task, Celery
+from celery import Task, Celery, group, chord
 from celery.utils.log import get_task_logger
 from django.db import transaction
 from django.utils import timezone
@@ -26,6 +26,7 @@ from nft_market.utils.constants import (
     BUY_NOW,
     SELL_NOW,
 )
+from nft_market.utils.operations import InvalidOperation
 from nft_market.utils.transactions import is_non_zero_asset_tx
 
 app = Celery("api")
@@ -103,28 +104,41 @@ def index_operations(asset_pk, update_timestamp=False, params=None):
     asset = Asset.objects.get(pk=asset_pk)
     app_id = asset.application_id
     last_round = asset.last_round
-    # TODO: Increase limit once PureStake fixes 504 errors
     if not params:
         params = dict(
             min_round=last_round,
             application_id=app_id,
-            limit=1,
+            limit=5,
             txn_type="appl",
         )
     response = algorand.explorer.search_transactions(**params)
     txs = response["transactions"]
     if len(txs) == 0:
         return
-    for tx in txs:
-        index_operation.delay(asset.pk, tx)
 
     last_tx = txs[-1]
     last_round = last_tx["confirmed-round"]
 
+    chord(
+        group(index_operation.s(asset.pk, tx) for tx in txs),
+    )(finish_indexing_operations.s(asset_pk, last_round, response.get("next-token")))
+
+
+@app.task()
+def finish_indexing_operations(results, asset_pk, last_round, next_token=None):
+    logger.info(f"Finished indexing {len(results)} operations")
+    asset = Asset.objects.get(pk=asset_pk)
     asset.last_round = last_round
     asset.save(update_fields=["last_round"])
-    if "next-token" in response:
-        params["next_page"] = response["next-token"]
+    if next_token:
+        app_id = asset.application_id
+        params = dict(
+            min_round=last_round,
+            application_id=app_id,
+            limit=5,
+            txn_type="appl",
+        )
+        params["next_page"] = next_token
         index_operations.apply_async(
             countdown=10,
             args=[asset.pk],
@@ -182,9 +196,13 @@ def index_operation(asset_pk, tx):
         operation._indexer = True
         handle_operation(operation, tx)
         logger.info(f"Saved transaction: {tx['id']}, op_pk: {operation.pk}")
-    except Exception as exc:
-        logger.exception(exc)
+    except InvalidOperation:
+        # If it's an invalid operation exception then we can safely move on.
+        # Otherwise, let's reraise the exception
         invalidate_operation(operation)
+    except Exception as exc:
+        invalidate_operation(operation)
+        raise exc
 
 
 @app.task()
