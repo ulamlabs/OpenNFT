@@ -8,7 +8,7 @@ Built on &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 # OpenAlgoNFT
 
-OpenAlgoNFT is an open-source cloud-native platform for building a NFT Marketplace on top of Algorand blockchain. 
+OpenAlgoNFT is an open-source cloud-native platform for building an NFT Marketplace on top of Algorand blockchain. 
 
 Learn more on our official [case study](https://staging.ulam.io/case-studies/whitelabel-nft-marketplace-by-ulam-labs/). 
 
