@@ -6,7 +6,7 @@ replicaCount: 1
 celeryReplicaCount: 1
 
 image:
-  repository: gcr.io/main-ulam/nft-market
+  repository: ulamlabs/opennft
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -53,5 +53,7 @@ affinity: {}
 vars:
   GOOGLE_APPLICATION_CREDENTIALS: /google_cred
   CELERY_CONFIG_MODULE: nft_market.celeryconfig
+ 
+host_dns: "openft.ulam.io"
 
 secrets: {}

@@ -15,7 +15,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "15m"
 spec:
   rules:
-  - host: nft-be.ulam.io
+  - host: {{ .Values.host_dns }}
     http:
       paths:
       - path: /
