@@ -71,7 +71,7 @@
         </svg>
       </a>
       <a
-        href="https://github.com/ulamlabs/nft-market"
+        href="https://github.com/ulamlabs/opennft"
         target="blank"
         class="text-gray-400 hover:text-gray-500"
       >
