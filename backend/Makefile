@@ -22,6 +22,6 @@ run:
 
 deploy:
 	helm secrets upgrade --install \
-						 -f ../helm/nft-market/secrets.yaml \
-						 $(HELM_DEPLOYMENT) ../helm/nft-market \
+						 -f ./helm//secrets.yaml \
+						 $(HELM_DEPLOYMENT) ./helm/ \
 						 --set image.tag=$(TAG)
