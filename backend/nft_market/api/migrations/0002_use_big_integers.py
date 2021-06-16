@@ -6,33 +6,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='asset',
-            name='application_id',
+            model_name="asset",
+            name="application_id",
             field=models.PositiveBigIntegerField(blank=True, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='asset',
-            name='asset_id',
+            model_name="asset",
+            name="asset_id",
             field=models.PositiveBigIntegerField(unique=True),
         ),
         migrations.AlterField(
-            model_name='asset',
-            name='last_round',
+            model_name="asset",
+            name="last_round",
             field=models.PositiveBigIntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='operation',
-            name='block_number',
+            model_name="operation",
+            name="block_number",
             field=models.PositiveBigIntegerField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='operation',
-            name='value',
+            model_name="operation",
+            name="value",
             field=models.PositiveBigIntegerField(blank=True, null=True),
         ),
     ]

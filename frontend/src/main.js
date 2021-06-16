@@ -60,10 +60,16 @@ const settings = {
       classes: 'block w-full text-center bg-white hover:bg-gray-50 border border-gray-300 focus:shadow-outline focus:outline-none text-gray-700 text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
     }
   },
+  't-featured-button': {
+    component: TButton,
+    props: {
+      classes: 'block w-full min-w-max text-center bg-indigo-500 hover:bg-indigo-600 focus:shadow-outline focus:outline-none text-white text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+    }
+  },
   't-white-featured-button': {
     component: TButton,
     props: {
-      classes: 'block w-full text-center bg-white hover:bg-gray-50 border border-gray-300 focus:shadow-outline focus:outline-none text-indigo-700 text-base leading-6 font-medium py-3 px-6 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+      classes: 'block w-full min-w-max text-center bg-white hover:bg-gray-50 border border-gray-300 focus:shadow-outline focus:outline-none text-indigo-700 text-base leading-6 font-medium py-3 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed'
     }
   },
   'modal-button': {
