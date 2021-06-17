@@ -25,7 +25,7 @@ case $action in
     exec python manage.py test "$@"
     ;;
   celery)
-    exec celery worker --loglevel=INFO
+    exec celery -A nft_market.celery worker --loglevel=DEBUG
     ;;
   *)
     exec $action "$@"

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+USE_TESTNET = os.environ.get("USE_TESTNET", "1") == "1"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -200,4 +202,6 @@ LOGGING = {
     },
 }
 
-BROKER_URL = "amqp://guest:guest@nft-market-rabbit:5672//"
+CELERY_BROKER_URL = os.getenv(
+    "CELERY_CONFIG_MODULE", "amqp://guest:guest@nft-market-rabbit:5672//"
+)

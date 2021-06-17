@@ -5,11 +5,26 @@ from algosdk.v2client.algod import AlgodClient
 from algosdk.v2client.indexer import IndexerClient
 from django.conf import settings
 
-headers = {"X-API-Key": settings.PURESTAKE_API_KEY}
-algod = AlgodClient(settings.PURESTAKE_API_KEY, settings.PURESTAKE_ALGOD_URL, headers)
-indexer = IndexerClient(
-    settings.PURESTAKE_API_KEY, settings.PURESTAKE_INDEXER_URL, headers
+PURESTAKE_ALGOD_URL = (
+    "https://testnet-algorand.api.purestake.io/ps2"
+    if settings.USE_TESTNET
+    else "https://mainnet-algorand.api.purestake.io/ps2"
 )
+PURESTAKE_INDEXER_URL = (
+    "https://testnet-algorand.api.purestake.io/idx2"
+    if settings.USE_TESTNET
+    else "https://testnet-algorand.api.purestake.io/idx2"
+)
+# We're using AlgoExplorer to look for transactions because it is more reliable than the official Algorand's indexer
+TXS_URL = (
+    "https://testnet.algoexplorerapi.io/idx2/v2/transactions"
+    if settings.USE_TESTNET
+    else "https://algoexplorerapi.io/idx2/v2/transactions"
+)
+
+headers = {"X-API-Key": settings.PURESTAKE_API_KEY}
+algod = AlgodClient(settings.PURESTAKE_API_KEY, PURESTAKE_ALGOD_URL, headers)
+indexer = IndexerClient(settings.PURESTAKE_API_KEY, PURESTAKE_INDEXER_URL, headers)
 
 
 class Explorer:
@@ -72,7 +87,7 @@ class Explorer:
         if rekey_to:
             query["rekey-to"] = "true"
         r = requests.get(
-            "https://testnet.algoexplorerapi.io/idx2/v2/transactions",
+            TXS_URL,
             params=query,
             headers={
                 "content-type": "application/json",
