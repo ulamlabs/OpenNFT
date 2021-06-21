@@ -106,7 +106,7 @@ export default {
     },
     onTransactionSuccess(txId) {
       let address;
-      if (ALGORAND_LEDGER === 'TestNet') {
+      if (ALGORAND_LEDGER.toUpperCase() === 'TestNet') {
         address = 'https://testnet.algoexplorer.io/tx/';
       } else {
         address = 'https://testnet.algoexplorer.io/tx/';

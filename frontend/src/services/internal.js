@@ -2,10 +2,11 @@ import { emitError } from '@/utils/errors';
 import { InvalidResponse } from '@/services/base';
 import store from '@/store/index';
 import { NeedsToRetry, retryWhenNeeded } from '@/utils/retry';
+import { BACKEND_URL } from '@/config';
 
 class InternalService {
   constructor() {
-    this.url = 'https://nft-be.ulam.io';
+    this.url = BACKEND_URL;
   }
 
   async getCompiledProxy(proxyId) {

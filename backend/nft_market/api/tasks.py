@@ -1,11 +1,5 @@
 import base64
-import os
 from datetime import timedelta
-
-import django
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nft_market.settings")
-django.setup()
 
 from celery import Task, Celery, group, chord
 from celery.utils.log import get_task_logger
@@ -28,6 +22,7 @@ from nft_market.utils.constants import (
 )
 from nft_market.utils.operations import InvalidOperation
 from nft_market.utils.transactions import is_non_zero_asset_tx
+from nft_market.celery import app
 
 app = Celery("api")
 logger = get_task_logger(__name__)
