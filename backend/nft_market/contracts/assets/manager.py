@@ -25,6 +25,8 @@ class ManagerContract:
     def on_register(self):
         return Seq(
             [
+                # Prevent opting-in for opted-in users
+                Assert(Not(App.optedIn(Int(0), Int(0))),
                 # Set default values for user
                 self.bid_price.put(Int(0)),
                 Return(Int(1)),
