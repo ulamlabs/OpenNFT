@@ -26,7 +26,7 @@ class ManagerContract:
         return Seq(
             [
                 # Prevent opting-in for opted-in users
-                Assert(Not(App.optedIn(Int(0), Int(0))),
+                Assert(Not(App.optedIn(Txn.accounts[0], Txn.applications[0]))),
                 # Set default values for user
                 self.bid_price.put(Int(0)),
                 Return(Int(1)),
