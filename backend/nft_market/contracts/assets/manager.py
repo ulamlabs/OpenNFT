@@ -25,17 +25,9 @@ class ManagerContract:
     def on_register(self):
         return Seq(
             [
-                # Set default values for user
-                If(
-                    Global.group_size() == Int(1),
-                    Seq(
-                        [
-                            self.bid_price.put(Int(0)),
-                            Return(Int(1)),
-                        ]
-                    ),
-                    Return(Int(0)),
-                )
+                Assert(Global.group_size() == Int(1)),
+                self.bid_price.put(Int(0)),
+                Return(Int(1)),
             ]
         )
 
