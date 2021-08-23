@@ -163,6 +163,7 @@ def escrow(app_id: int, usdc_id: int, nft_id: int):
                 And(
                     Gtxn[0].application_id() == Int(app_id),
                     Gtxn[0].type_enum() == TxnType.ApplicationCall,
+                    Gtxn[0].on_completion() == OnComplete.NoOp,
                     Txn.close_remainder_to() == Global.zero_address(),
                     Txn.rekey_to() == Global.zero_address(),
                 )
