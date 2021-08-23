@@ -36,6 +36,7 @@ class ManagerContract:
         prev_bid = ScratchSlot()
         return Seq(
             [
+                is_valid_tx.store(Int(0)),
                 prev_bid.store(self.bid_price.get()),
                 # Increase bid_price
                 If(
