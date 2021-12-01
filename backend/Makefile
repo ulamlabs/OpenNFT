@@ -1,5 +1,5 @@
 TAG = $(shell ./dev/docker-tag)
-IMAGE = ulamlabs/opennft:$(TAG)
+IMAGE = tosainu/opennft:$(TAG)
 HELM_DEPLOYMENT = opennft
 
 K8S_CONTEXT = some-context

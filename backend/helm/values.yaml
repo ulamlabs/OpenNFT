@@ -6,7 +6,7 @@ replicaCount: 1
 celeryReplicaCount: 1
 
 image:
-  repository: ulamlabs/opennft
+  repository: tosainucoin/opennft
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -53,6 +53,6 @@ affinity: {}
 vars:
   GOOGLE_APPLICATION_CREDENTIALS: /google_cred
  
-host_dns: "openft.ulam.io"
+host_dns: "tosainunfts.com"
 
 secrets: {}
